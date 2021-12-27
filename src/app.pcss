@@ -46,12 +46,16 @@ button {
     border: 1px solid currentColor;
   }
 
-  &:hover {
+  &:hover:not([disabled]) {
     opacity: 0.8;
   }
 
   &:active {
     opacity: 1;
+  }
+
+  &[disabled] {
+    opacity: 0.6;
   }
 }
 

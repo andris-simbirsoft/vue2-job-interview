@@ -1,5 +1,8 @@
 <template>
-  <v-popup v-if="show && personCopy">
+  <v-popup
+    v-if="show && personCopy"
+    @submit.native.prevent="onPersonSaveEdit"
+  >
     <template #header>
       <h3>Имя Фамилия Сотрудника</h3>
     </template>
@@ -33,8 +36,16 @@
 
     <template #footer>
       <div class="popup-btn-group">
-        <button class="outline" @click="onPersonCancelEdit">Отменить</button>
-        <button @click="onPersonSaveEdit">Сохранить</button>
+        <button
+          class="outline"
+          @click="onPersonCancelEdit"
+        >
+          Отменить
+        </button>
+
+        <button :disabled="!isValidToSavePerson">
+          Сохранить
+        </button>
       </div>
     </template>
   </v-popup>
@@ -42,6 +53,9 @@
 
 <script>
 import VPopup from '@/components/VPopup.vue';
+
+import { convertObjectWithoutFields } from '@/_utils/converter';
+import { validateName, validateEmail } from '@/_utils/validator';
 
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -69,6 +83,20 @@ export default {
   data: () => ({
     personCopy: null,
   }),
+
+  computed: {
+    isValidToSavePerson() {
+      if (!this.person) return false;
+
+      const hasEdittedField = Object
+        .keys(convertObjectWithoutFields(this.person, ['comments']))
+        .some(key => this.person[key] !== this.personCopy[key]);
+
+      if (!hasEdittedField) return false;
+
+      return validateName(this.personCopy.name) && validateEmail(this.personCopy.email);
+    },
+  },
 
   methods: {
     onPersonCancelEdit() {

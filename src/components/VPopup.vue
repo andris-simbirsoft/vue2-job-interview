@@ -1,5 +1,5 @@
 <template>
-  <div class="popup">
+  <form class="popup">
     <div class="dialog">
       <div class="dialog-header">
         <slot name="header"></slot>
@@ -11,7 +11,7 @@
         <slot name="footer"></slot>
       </div>
     </div>
-  </div>
+  </form>
 </template>
 
 <script>
