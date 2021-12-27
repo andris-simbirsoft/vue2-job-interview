@@ -23,23 +23,23 @@
  * @property {string} baseUrl
  */
 export default class ApiService {
-    /**
-     * @param {ApiServiceOptions} options
-     */
-    constructor({ baseUrl = 'https://61adfd3ea7c7f3001786f510.mockapi.io/' } = {}) {
-        this.options = { baseUrl };
-    }
-    /**
-     * @returns {Promise.<Person[], Error>}
-     */
-    getPersons() {
-        // @TODO implement
-        // mix comments to person here
-    }
-    /**
-     * @returns {Promise.<Comment[], Error>}
-     */
-    getComments() {
-        // @TODO implement
-    }
+  /**
+   * @param {ApiServiceOptions} options
+   */
+  constructor({ baseUrl } = { baseUrl: 'https://61adfd3ea7c7f3001786f510.mockapi.io/', }) {
+    this.options = { baseUrl };
+  }
+  /**
+   * @returns {Promise.<Person[], Error>}
+   */
+  getPersons() {
+    // @TODO implement
+    // mix comments to person here
+  }
+  /**
+   * @returns {Promise.<Comment[], Error>}
+   */
+  getComments() {
+    // @TODO implement
+  }
 }
