@@ -1,26 +1,29 @@
 <template>
   <div class="card">
-    <table style="width: 100%">
-      <tr>
-        <td style="width: 0">
-          <div class="card-avatar">
-            <v-person-card-avatar :url="person.avatar"></v-person-card-avatar>
-            <div v-if="person.comments">
-              {{ person.comments.length }}
-            </div>
-          </div>
-        </td>
-        <td style="max-width: 0">
-          <div class="card-name">
-            <b>{{ person.name }}</b>
-          </div>
-          <div class="card-email">{{ person.email }}</div>
-        </td>
-        <td style="width: 0">
-          <span class="action-btn" @click="onPersonEdit">edit</span>
-        </td>
-      </tr>
-    </table>
+    <div class="card-avatar">
+      <v-person-card-avatar :url="person.avatar"></v-person-card-avatar>
+
+      <div v-if="person.comments">
+        {{ person.comments.length }}
+      </div>
+    </div>
+
+    <div class="card-info">
+      <div class="card-info__title">
+        <div class="card-info__title-name">
+          {{ person.name }}
+        </div>
+
+        <span
+          class="card-info__title-button"
+          @click="onPersonEdit"
+        >
+          edit
+        </span>
+      </div>
+
+      <div class="card-info__email">{{ person.email }}</div>
+    </div>
   </div>
 </template>
 
@@ -50,6 +53,8 @@ export default {
 
 <style lang="pcss" scoped>
 .card {
+  display: flex;
+
   padding: 1rem;
   background: white;
   box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.1);
@@ -57,16 +62,33 @@ export default {
   &-avatar {
     position: relative;
     margin-right: 1rem;
+  }
 
-    &-email {
-      font-size: var(--font-size-small);
+  &-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    &__title {
+      display: flex;
+      justify-content: space-between;
+
+      &-button {
+        color: var(--color-primary);
+        font-size: var(--font-size-small);
+        border-bottom: 1px dashed currentColor;
+        cursor: pointer;
+      }
     }
 
-    &-email,
-    &-name {
+    &__title-name, &__email {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+    }
+
+    &__email {
+      font-size: var(--font-size-small);
     }
   }
 }
