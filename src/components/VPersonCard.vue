@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-avatar">
-      <v-person-card-avatar :url="person.avatar"></v-person-card-avatar>
+      <v-person-card-avatar :url="person.avatar" />
 
       <div v-if="person.comments">
         {{ person.comments.length }}
