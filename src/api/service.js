@@ -35,18 +35,31 @@ export default class ApiService {
    * @returns {Promise.<Person[], Error>}
    */
 
-  getPersons() {
-    // @TODO implement
-    // mix comments to person here
+  async getPersons() {
+    const comments = (await this.getComments())
+      .reduce((acc, comment) => {
+        const { personId } = comment;
+
+        if (personId in acc) acc[personId].push(comment);
+        else acc[personId] = [comment];
+
+        return acc;
+      }, {});
+
     return request()
       .get(`${this.options.baseUrl}/person`)
-      .then(res => res.data);
+      .then(res => res.data.map(person => ({
+        ...person,
+        comments: comments[person.id] ? comments[person.id] : [],
+      })));
   }
 
   /**
    * @returns {Promise.<Comment[], Error>}
    */
   getComments() {
-    // @TODO implement
+    return request()
+      .get(`${this.options.baseUrl}/comment`)
+      .then(res => res.data);
   }
 }

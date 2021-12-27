@@ -3,7 +3,7 @@
     <div class="card-avatar">
       <v-person-card-avatar :url="person.avatar" />
 
-      <div v-if="person.comments">
+      <div v-if="person.comments.length" class="card-avatar__comments">
         {{ person.comments.length }}
       </div>
     </div>
@@ -56,12 +56,28 @@ export default {
   display: flex;
 
   padding: 1rem;
-  background: white;
+  background-color: var(--color-white);
   box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.1);
 
   &-avatar {
     position: relative;
     margin-right: 1rem;
+
+    &__comments {
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translate(50%, -50%);
+
+      text-align: center;
+
+      min-width: 17px;
+      height: 17px;
+
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      font-size: var(--font-size-small);
+    }
   }
 
   &-info {
