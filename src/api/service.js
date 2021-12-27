@@ -1,4 +1,5 @@
 import request from '@/api/_http';
+import { groupItemsByFieldToObject } from '@/_utils/array';
 
 /**
  * @typedef {object} PersonGroup
@@ -36,15 +37,7 @@ export default class ApiService {
    */
 
   async getPersons() {
-    const comments = (await this.getComments())
-      .reduce((acc, comment) => {
-        const { personId } = comment;
-
-        if (personId in acc) acc[personId].push(comment);
-        else acc[personId] = [comment];
-
-        return acc;
-      }, {});
+    const comments = groupItemsByFieldToObject((await this.getComments()), 'personId');
 
     return request()
       .get(`${this.options.baseUrl}/person`)

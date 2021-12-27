@@ -21,6 +21,7 @@
 
 <script>
 import VPersonCard from './VPersonCard.vue';
+import { groupItemsByFieldToObject } from '@/_utils/array';
 
 export default {
   name: 'VPersonGroup',
@@ -33,17 +34,7 @@ export default {
 
   computed: {
     groupedPersons() {
-      return this.persons.reduce((acc, person) => {
-        const { position } = person;
-
-        if (position in acc) {
-          acc[position].push(person);
-        } else {
-          acc[position] = [person];
-        }
-
-        return acc;
-      }, {});
+      return groupItemsByFieldToObject(this.persons, 'position');
     },
   },
   
