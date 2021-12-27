@@ -6,3 +6,9 @@
 export const searchFactory = (fieldName, searchFunction) => {
   return (item, search) => searchFunction(item[fieldName], search);
 }
+
+export const searchMark = (value, search) => {
+  const reg = new RegExp(search, 'gi');
+
+  return value.replace(reg, '<mark>$&</mark>');
+}

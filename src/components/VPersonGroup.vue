@@ -13,7 +13,13 @@
           :person="person"
           :key="person.id"
           @edit="onPersonEdit(person)"
-        />
+        >
+          <template #personName="{ person }">
+            <slot name="personName" :person="person">
+              {{ person.name }}
+            </slot>
+          </template>
+        </v-person-card>
       </div>
     </div>
   </section>

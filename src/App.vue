@@ -10,7 +10,11 @@
     <v-person-group
       :persons="filteredPersons"
       @edit="onPersonEdit"
-    />
+    >
+      <template #personName="{ person }">
+        <span v-html="markName(person)" />
+      </template>
+    </v-person-group>
 
     <v-person-popup
       v-if="isPersonEditMode"
@@ -28,7 +32,7 @@ import VPersonGroup from '@/components/VPersonGroup.vue';
 import VPersonPopup from '@/components/VPersonPopup.vue';
 
 import ApiService from '@/api/service.js';
-import { searchFactory } from '@/_utils/search';
+import { searchFactory, searchMark } from '@/_utils/search';
 
 const personService = new ApiService();
 
@@ -106,6 +110,12 @@ export default {
 
       this.persons.splice(editablePersonIdx, 1, edittedPerson);
       personService.changePerson(edittedPerson);
+    },
+
+    markName(person) {
+      if (!this.search) return person.name;
+
+      return searchMark(person.name, this.search);
     },
   },
 

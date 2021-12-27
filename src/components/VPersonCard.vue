@@ -11,7 +11,9 @@
     <div class="card-info">
       <div class="card-info__title">
         <div class="card-info__title-name">
-          {{ person.name }}
+          <slot name="personName" :person="person">
+            {{ person.name }}
+          </slot>
         </div>
 
         <span
@@ -22,7 +24,11 @@
         </span>
       </div>
 
-      <div class="card-info__email">{{ person.email }}</div>
+      <div class="card-info__email">
+        <slot name="personEmail" :person="person">
+          {{ person.email }}
+        </slot>
+      </div>
     </div>
   </div>
 </template>
