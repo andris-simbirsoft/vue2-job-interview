@@ -59,9 +59,14 @@ export default {
   },
 
   methods: {
-    async fetchPersons() {
-      // Use ApiService `getPersons` call here to load data
-      // this.persons = persons;
+    getPositonsFromPersons() {
+      return this.persons.reduce((acc, person) => {
+        const { position } = person;
+
+        if (!acc.includes(position)) acc.push(position);
+
+        return acc;
+      }, []);
     },
 
     onPersonEdit(person) {
@@ -79,6 +84,8 @@ export default {
 
   async created() {
     this.persons = await personService.getPersons();
+
+    this.positions = this.getPositonsFromPersons();
   }
 };
 </script>

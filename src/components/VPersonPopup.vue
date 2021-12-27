@@ -1,5 +1,5 @@
 <template>
-  <v-popup v-if="show">
+  <v-popup v-if="show && personCopy">
     <template #header>
       <h3>Имя Фамилия Сотрудника</h3>
     </template>
@@ -8,17 +8,17 @@
       <div class="form">
         <div class="form-elem">
           <label class="form-elem-label">name</label>
-          <input type="text" />
+          <input v-model="personCopy.name" type="text" />
         </div>
 
         <div class="form-elem">
           <label class="form-elem-label">email</label>
-          <input type="text" />
+          <input v-model="personCopy.email" type="text" />
         </div>
 
         <div class="form-elem">
           <label class="form-elem-label">position</label>
-          <select>
+          <select v-model="personCopy.position">
             <option
               v-for="(value, positionIdx) in positions"
               :value="value"
@@ -43,11 +43,18 @@
 <script>
 import VPopup from '@/components/VPopup.vue';
 
+import cloneDeep from 'lodash/cloneDeep';
+
 export default {
   name: 'VPersonPopup',
   components: { VPopup },
 
   props: {
+    person: {
+      required: true,
+      validator: value => value === null || ['email', 'name'].every(key => key in value),
+    },
+
     positions: {
       type: Array,
       default: () => [],
@@ -59,15 +66,30 @@ export default {
     },
   },
 
+  data: () => ({
+    personCopy: null,
+  }),
+
   methods: {
     onPersonCancelEdit() {
       this.$emit('cancel');
+      this.personCopy = cloneDeep(this.person);
     },
 
     onPersonSaveEdit() {
-      this.$emit('save');
+      this.$emit('save', this.personCopy);
     },
-  }
+  },
+
+  watch: {
+    person: {
+      handler() {
+        this.personCopy = cloneDeep(this.person);
+      },
+
+      deep: true,
+    },
+  },
 }
 </script>
 
