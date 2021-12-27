@@ -77,8 +77,13 @@ export default {
       this.editablePerson = null;
     },
 
-    onPersonSaveEdit() {
+    onPersonSaveEdit(edittedPerson) {
       this.editablePerson = null;
+
+      const editablePersonIdx = this.persons.findIndex(person => person.id === edittedPerson.id);
+
+      this.persons.splice(editablePersonIdx, 1, edittedPerson);
+      personService.changePerson(edittedPerson);
     },
   },
 

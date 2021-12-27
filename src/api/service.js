@@ -1,5 +1,5 @@
 import request from '@/api/_http';
-import { groupItemsByFieldToObject } from '@/_utils/array';
+import { groupItemsByFieldToObject, convertObjectWithoutFields } from '@/_utils/converter';
 
 /**
  * @typedef {object} PersonGroup
@@ -32,10 +32,10 @@ export default class ApiService {
   constructor({ baseUrl } = { baseUrl: 'https://61adfd3ea7c7f3001786f510.mockapi.io', }) {
     this.options = { baseUrl };
   }
+
   /**
    * @returns {Promise.<Person[], Error>}
    */
-
   async getPersons() {
     const comments = groupItemsByFieldToObject((await this.getComments()), 'personId');
 
@@ -54,5 +54,13 @@ export default class ApiService {
     return request()
       .get(`${this.options.baseUrl}/comment`)
       .then(res => res.data);
+  }
+
+  changePerson(person) {
+    return request()
+      .put(
+        `${this.options.baseUrl}/person/${person.id}`,
+        convertObjectWithoutFields(person, ['comments'])
+      );
   }
 }

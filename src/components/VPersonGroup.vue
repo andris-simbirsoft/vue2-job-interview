@@ -21,7 +21,7 @@
 
 <script>
 import VPersonCard from './VPersonCard.vue';
-import { groupItemsByFieldToObject } from '@/_utils/array';
+import { groupItemsByFieldToObject } from '@/_utils/converter';
 
 export default {
   name: 'VPersonGroup',
