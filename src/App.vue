@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <input
-      v-model="search"
+      v-model.trim="search"
       class="search-bar"
       type="text"
       placeholder="search"
     />
 
     <v-person-group
-      :persons="persons"
+      :persons="filteredPersons"
       @edit="onPersonEdit"
     />
 
@@ -24,12 +24,25 @@
 
 <script>
 
-import ApiService from './api/service.js';
-
 import VPersonGroup from '@/components/VPersonGroup.vue';
 import VPersonPopup from '@/components/VPersonPopup.vue';
 
+import ApiService from '@/api/service.js';
+import { searchFactory } from '@/_utils/search';
+
 const personService = new ApiService();
+
+const searchByEmail = searchFactory('email', (email, search) => {
+  const splittedEmail = email.split('@');
+
+  return splittedEmail.some(part => part.toLowerCase().startsWith(search.toLowerCase()));
+});
+
+const searchByName = searchFactory('name', (name, search) => {
+  const splittedName = name.split('@');
+
+  return splittedName.some(part => part.toLowerCase().startsWith(search.toLowerCase()));
+});
 
 export default {
   name: 'App',
@@ -52,18 +65,22 @@ export default {
      * @return {import('./api/service.js').Person[]}
      */
     filteredPersons() {
-      return this.persons;
+      return !this.search
+        ? this.persons
+        : this.persons.filter(person => {
+          return searchByName(person, this.search) || searchByEmail(person, this.search)
+        });
     },
 
-    /**
-     * @return {boolean}
-     */
     isPersonEditMode() {
       return !!this.editablePerson;
     },
   },
 
   methods: {
+    /**
+     * @return {string[]}
+     */
     getPositonsFromPersons() {
       return this.persons.reduce((acc, person) => {
         const { position } = person;
