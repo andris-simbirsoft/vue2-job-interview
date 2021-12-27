@@ -1,8 +1,5 @@
 <template>
-  <v-popup
-    v-if="show && personCopy"
-    @submit.native.prevent="onPersonSaveEdit"
-  >
+  <v-popup @submit.native.prevent="onPersonSaveEdit">
     <template #header>
       <h3>Имя Фамилия Сотрудника</h3>
     </template>
@@ -32,18 +29,44 @@
           </select>
         </div>
       </div>
+
+      <v-popup
+        v-if="isValidToSavePerson && isClickedCancel"
+        @submit.native.prevent="confirmRevert"
+      >
+        <template #header>
+          <h3>Вы действительно хотите отменить изменения?</h3>
+        </template>
+
+        <template #footer>
+          <div class="popup-btn-group">
+            <button
+              class="outline"
+              type="button"
+              @click="cancelRevert"
+            >
+              Нет
+            </button>
+
+            <button type="submit" :disabled="!isValidToSavePerson">
+              Да
+            </button>
+          </div>
+        </template>
+      </v-popup>
     </template>
 
     <template #footer>
       <div class="popup-btn-group">
         <button
           class="outline"
+          type="button"
           @click="onPersonCancelEdit"
         >
           Отменить
         </button>
 
-        <button :disabled="!isValidToSavePerson">
+        <button type="submit" :disabled="!isValidToSavePerson">
           Сохранить
         </button>
       </div>
@@ -73,26 +96,24 @@ export default {
       type: Array,
       default: () => [],
     },
-
-    show: {
-      type: Boolean,
-      default: false,
-    },
   },
 
   data: () => ({
     personCopy: null,
+    isClickedCancel: false,
   }),
 
   computed: {
+    hasChanges() {
+      return !!this.person && Object
+        .keys(convertObjectWithoutFields(this.person, ['comments']))
+        .some(key => this.person[key] !== this.personCopy[key]);
+    },
+
     isValidToSavePerson() {
       if (!this.person) return false;
 
-      const hasEdittedField = Object
-        .keys(convertObjectWithoutFields(this.person, ['comments']))
-        .some(key => this.person[key] !== this.personCopy[key]);
-
-      if (!hasEdittedField) return false;
+      if (!this.hasChanges) return false;
 
       return validateName(this.personCopy.name) && validateEmail(this.personCopy.email);
     },
@@ -100,8 +121,19 @@ export default {
 
   methods: {
     onPersonCancelEdit() {
+      this.isClickedCancel = true;
+
+      if (!this.hasChanges) {
+        this.confirmRevert();
+      }
+    },
+
+    confirmRevert() {
       this.$emit('cancel');
-      this.personCopy = cloneDeep(this.person);
+    },
+
+    cancelRevert() {
+      this.isClickedCancel = false;
     },
 
     onPersonSaveEdit() {
@@ -109,19 +141,13 @@ export default {
     },
   },
 
-  watch: {
-    person: {
-      handler() {
-        this.personCopy = cloneDeep(this.person);
-      },
-
-      deep: true,
-    },
+  created() {
+    this.personCopy = cloneDeep(this.person);
   },
 }
 </script>
 
-<style lang="postcss" scoped>
+<style lang="pcss" scoped>
 .form {
   width: 25rem;
 

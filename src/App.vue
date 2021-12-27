@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <div class="search-bar">Здесь будет строка поиска</div>
+    <input
+      v-model="search"
+      class="search-bar"
+      type="text"
+      placeholder="search"
+    />
 
     <v-person-group
       :persons="persons"
@@ -8,7 +13,7 @@
     />
 
     <v-person-popup
-      :show="isPersonEditMode"
+      v-if="isPersonEditMode"
       :positions="positions"
       :person="editablePerson"
       @cancel="onPersonCancelEdit"
@@ -18,9 +23,8 @@
 </template>
 
 <script>
-// use this Service class to load data
+
 import ApiService from './api/service.js';
-// import persons from './api/data';
 
 import VPersonGroup from '@/components/VPersonGroup.vue';
 import VPersonPopup from '@/components/VPersonPopup.vue';
@@ -37,6 +41,7 @@ export default {
 
   data: () => ({
     editablePerson: null,
+    search: '',
 
     persons: [],
     positions: [],
@@ -102,13 +107,5 @@ export default {
   &-input {
     width: 100%;
   }
-}
-
-.action-btn {
-  color: var(--color-primary);
-  font-size: var(--font-size-small);
-  line-height: 1;
-  border-bottom: 1px dashed currentColor;
-  cursor: pointer;
 }
 </style>
