@@ -39,7 +39,7 @@ const searchByEmail = searchFactory('email', (email, search) => {
 });
 
 const searchByName = searchFactory('name', (name, search) => {
-  const splittedName = name.split('@');
+  const splittedName = name.split(' ');
 
   return splittedName.some(part => part.toLowerCase().startsWith(search.toLowerCase()));
 });
