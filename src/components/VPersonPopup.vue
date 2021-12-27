@@ -1,7 +1,7 @@
 <template>
   <v-popup @submit.native.prevent="onPersonSaveEdit">
     <template #header>
-      <h3>Имя Фамилия Сотрудника</h3>
+      <h3>{{ person.name }}</h3>
     </template>
 
     <template #body>
