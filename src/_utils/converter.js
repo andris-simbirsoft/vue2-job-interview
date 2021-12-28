@@ -1,8 +1,9 @@
 
 /**
  * @typedef {Object<string, any>} Item
+ *
  * @param {Item[]} items
- * @param {string} fieldName 
+ * @param {string} fieldName
  * @returns {Obejct<string, Item[]>}
  */
 export const groupItemsByFieldToObject = (items, fieldName) => {
@@ -12,6 +13,33 @@ export const groupItemsByFieldToObject = (items, fieldName) => {
 
     return acc;
   }, {});
+}
+
+/**
+ * @typedef {Object<string, any>} Item
+ * @typedef {{ title: string, items: Item[] }} ResultValue
+ *
+ * @param {Item[]} items
+ * @param {string} fieldName
+ * @returns {ResultValue}
+ */
+export const groupItemsByFieldToArray = (items, fieldName) => {
+  const checked = {};
+  
+  return items.reduce((acc, item) => {
+    if (item[fieldName] in checked) {
+      acc[checked[item[fieldName]]].items.push(item);
+    } else {
+      checked[item[fieldName]] = acc.length;
+
+      acc.push({
+        items: [item],
+        title: item[fieldName],
+      });
+    }
+
+    return acc;
+  }, []);
 }
 
 /**
