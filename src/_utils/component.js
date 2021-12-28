@@ -10,7 +10,7 @@ export const maskPersonCardValue = (component, fields, maskSymbol) => ({
 
   props: component.props,
 
-  render(createElement, { props }) {
+  render(createElement, context) {
     if (
       !fields.length
       || !fields.every(field => ['email', 'name'].includes(field))
@@ -27,11 +27,11 @@ export const maskPersonCardValue = (component, fields, maskSymbol) => ({
       }
 
       return acc;
-    }, {});
+    }, { ...context.scopedSlots });
 
     const options = {
       scopedSlots,
-      props,
+      props: context.props,
     };
 
     return createElement(component, options);
