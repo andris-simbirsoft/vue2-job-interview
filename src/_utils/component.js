@@ -20,9 +20,7 @@ export const maskPersonCardValue = (component, fields, maskSymbol) => ({
     }
 
     const scopedSlots = fields.reduce((acc, field) => {
-      acc[`person${field[0].toUpperCase()}${field.substring(1)}`] = props => {
-        const { person } = props;
-
+      acc[`person${field[0].toUpperCase()}${field.substring(1)}`] = ({ person }) => {
         return createElement('span', maskSymbol.repeat(person[field].length))
       }
 

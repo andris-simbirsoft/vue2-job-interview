@@ -12,7 +12,11 @@
       @edit="onPersonEdit"
     >
       <template #personName="{ person }">
-        <span v-html="markName(person)" />
+        <span v-html="markField(person, 'name')" />
+      </template>
+
+      <template #personEmail="{ person }">
+        <span v-html="markField(person, 'email')" />
       </template>
     </v-person-group>
 
@@ -112,10 +116,10 @@ export default {
       personService.changePerson(edittedPerson);
     },
 
-    markName(person) {
-      if (!this.search) return person.name;
+    markField(person, field) {
+      if (!this.search) return person[field];
 
-      return searchMark(person.name, this.search);
+      return searchMark(person[field], this.search);
     },
   },
 

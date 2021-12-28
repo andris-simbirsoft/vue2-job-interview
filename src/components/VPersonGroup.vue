@@ -20,6 +20,12 @@
               {{ person.name }}
             </slot>
           </template>
+
+          <template #personEmail="{ person }">
+            <slot name="personEmail" :person="person">
+              {{ person.name }}
+            </slot>
+          </template>
         </component>
       </div>
     </div>
