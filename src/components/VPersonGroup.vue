@@ -8,10 +8,11 @@
       <h3 class="person-group__name">{{ groupKey }}</h3>
 
       <div class="list">
-        <v-person-card
+        <component
           v-for="person of group"
           :person="person"
           :key="person.id"
+          :is="renderComponent(person)"
           @edit="onPersonEdit(person)"
         >
           <template #personName="{ person }">
@@ -19,7 +20,7 @@
               {{ person.name }}
             </slot>
           </template>
-        </v-person-card>
+        </component>
       </div>
     </div>
   </section>
@@ -27,12 +28,17 @@
 
 <script>
 import VPersonCard from '@/components/VPersonCard.vue';
+
 import { groupItemsByFieldToObject } from '@/_utils/converter';
+import { maskPersonCardValue } from '@/_utils/component';
 
 export default {
   name: 'VPersonGroup',
 
-  components: { VPersonCard },
+  components: {
+    VPersonCard,
+    VPersonMarkCard: maskPersonCardValue(VPersonCard, ['email'], '*'),
+  },
 
   props: {
     persons: { type: Array, default: () => [] },
@@ -47,6 +53,10 @@ export default {
   methods: {
     onPersonEdit(person) {
       this.$emit('edit', person);
+    },
+
+    renderComponent(person) {
+      return person.position === 'Manager' ? 'VPersonMarkCard' : 'VPersonCard';
     },
   },
 }

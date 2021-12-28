@@ -7,6 +7,12 @@ export const searchFactory = (fieldName, searchFunction) => {
   return (item, search) => searchFunction(item[fieldName], search);
 }
 
+/**
+ * function that returns a marked value by search string
+ * @param {string} value value to search
+ * @param {string} search search string
+ * @returns {string} a marked value string by second param
+ */
 export const searchMark = (value, search) => {
   const reg = new RegExp(search, 'gi');
 
