@@ -3,7 +3,6 @@
  * @param {any} component Vue component
  * @param {string[]} fields email | name
  * @param {string} maskSymbol symbol to hide a field example: '*' | '-'
- * @returns 
  */
 export const maskPersonCardValue = (component, fields, maskSymbol) => ({
   functional: true,

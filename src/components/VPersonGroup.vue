@@ -66,6 +66,10 @@ export default {
   }),
 
   computed: {
+    /**
+     * @typedef {{ title: string, size: number, items: import('../api/service.js').Person[] }} Group
+     * @return {Group[]}
+     */
     groupedPersons() {
       const grouped = groupItemsByFieldToArray(this.persons, 'position');
 

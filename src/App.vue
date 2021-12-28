@@ -116,6 +116,9 @@ export default {
       personService.changePerson(edittedPerson);
     },
 
+    /**
+     * @return {string}
+     */
     markField(person, field) {
       if (!this.search) return person[field];
 
