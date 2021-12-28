@@ -11,7 +11,8 @@
   "dependencies": {
     "axios": "^0.24.0",
     "lodash": "^4.17.21",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-virtual-scroller": "^1.0.10"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "4.1.1",
