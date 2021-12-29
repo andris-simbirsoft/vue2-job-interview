@@ -1,5 +1,5 @@
 import request from '@/api/_http';
-import { groupItemsByFieldToObject, convertObjectWithoutFields } from '@/_utils/converter';
+import { groupItemsByFieldToObject, excludeFields } from '@/_utils/converter';
 
 /**
  * @typedef {object} PersonGroup
@@ -60,7 +60,7 @@ export default class ApiService {
     return request()
       .put(
         `${this.options.baseUrl}/person/${person.id}`,
-        convertObjectWithoutFields(person, ['comments'])
+        excludeFields(person, ['comments'])
       );
   }
 }

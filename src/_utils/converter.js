@@ -48,7 +48,7 @@ export const groupItemsByFieldToArray = (items, fieldName) => {
  * @param {string[]} fields 
  * @returns {Obejct<string, any>} returns an item without fields from second param
  */
-export const convertObjectWithoutFields = (item, fields) => {
+export const excludeFields = (item, fields) => {
   return Object.keys(item)
     .filter(key => !fields.includes(key))
     .reduce((acc, field) => {

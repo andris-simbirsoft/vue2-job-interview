@@ -77,7 +77,7 @@
 <script>
 import VPopup from '@/components/VPopup.vue';
 
-import { convertObjectWithoutFields } from '@/_utils/converter';
+import { excludeFields } from '@/_utils/converter';
 import { validateName, validateEmail } from '@/_utils/validator';
 
 import cloneDeep from 'lodash/cloneDeep';
@@ -106,7 +106,7 @@ export default {
   computed: {
     hasChanges() {
       return !!this.person && Object
-        .keys(convertObjectWithoutFields(this.person, ['comments']))
+        .keys(excludeFields(this.person, ['comments']))
         .some(key => this.person[key] !== this.personCopy[key]);
     },
 
