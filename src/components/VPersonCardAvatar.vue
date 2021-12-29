@@ -23,8 +23,8 @@ export default {
     url: {
       handler(val) { this.imgUrl = val; },
 
-      immediate: true
-    }
+      immediate: true,
+    },
   },
 
   mounted() {

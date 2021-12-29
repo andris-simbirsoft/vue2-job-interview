@@ -2,13 +2,13 @@
   <form class="popup">
     <div class="dialog">
       <div class="dialog-header">
-        <slot name="header"></slot>
+        <slot name="header" />
       </div>
       <div class="dialog-body">
-        <slot name="body"></slot>
+        <slot name="body" />
       </div>
       <div class="dialog-footer">
-        <slot name="footer"></slot>
+        <slot name="footer" />
       </div>
     </div>
   </form>

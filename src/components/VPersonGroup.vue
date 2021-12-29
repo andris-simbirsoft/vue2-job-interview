@@ -1,6 +1,6 @@
 <template>
   <section>
-    <RecycleScroller
+    <recycle-scroller
       class="person-group"
       :items="groupedPersons"
       key-field="title"
@@ -32,7 +32,7 @@
           </component>
         </div>
       </template>
-    </RecycleScroller>
+    </recycle-scroller>
   </section>
 </template>
 
@@ -47,6 +47,12 @@ import { maskPersonCardValue } from '@/_utils/component';
 const breakPoints = Object.freeze({
   MIN_SIZE: 671,
   FULL_SIZE: 1008,
+});
+
+const size = Object.freeze({
+  PERSON_SIZE: 96,
+  TITLE_SIZE: 44,
+  GAP_SIZE: 16,
 });
 
 export default {
@@ -73,9 +79,7 @@ export default {
     groupedPersons() {
       const grouped = groupItemsByFieldToArray(this.persons, 'position');
 
-      const PERSON_SIZE = 96;
-      const TITLE_SIZE = 44;
-      const GAP_SIZE = 16;
+      const { PERSON_SIZE, TITLE_SIZE, GAP_SIZE } = size;
 
       return grouped.map(group => {
         const newGroup = {
@@ -83,15 +87,15 @@ export default {
           size: TITLE_SIZE,
         };
 
-        let elCountInRow = 1;
+        let colCount = 1;
 
         if (this.currentWidth > breakPoints.MIN_SIZE && this.currentWidth < breakPoints.FULL_SIZE) {
-          elCountInRow = 2;
+          colCount = 2;
         } else if (this.currentWidth >= breakPoints.FULL_SIZE) {
-          elCountInRow = 3;
+          colCount = 3;
         }
 
-        const rowsCount = Math.ceil(group.items.length / elCountInRow);
+        const rowsCount = Math.ceil(group.items.length / colCount);
 
         newGroup.size += rowsCount * PERSON_SIZE + (GAP_SIZE * (rowsCount));
 
