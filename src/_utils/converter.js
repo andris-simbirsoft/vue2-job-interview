@@ -4,7 +4,7 @@
  *
  * @param {Item[]} items
  * @param {string} fieldName
- * @returns {Obejct<string, Item[]>}
+ * @returns {Object<string, Item[]>}
  */
 export const groupItemsByFieldToObject = (items, fieldName) => {
   return items.reduce((acc, item) => {
@@ -16,8 +16,7 @@ export const groupItemsByFieldToObject = (items, fieldName) => {
 }
 
 /**
- * @typedef {Object<string, any>} Item
- * @typedef {{ title: string, items: Item[] }} ResultValue
+ * @typedef {{ title: string, items: any[] }[]} ResultValue
  *
  * @param {Item[]} items
  * @param {string} fieldName
@@ -43,10 +42,9 @@ export const groupItemsByFieldToArray = (items, fieldName) => {
 }
 
 /**
- * @typedef {Object<string, any>} Item
  * @param {Item} item
  * @param {string[]} fields 
- * @returns {Obejct<string, any>} returns an item without fields from second param
+ * @returns {Object<string, any>} returns an item without fields from second param
  */
 export const excludeFields = (item, fields) => {
   return Object.keys(item)

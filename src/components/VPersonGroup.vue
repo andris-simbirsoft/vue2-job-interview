@@ -121,7 +121,7 @@ export default {
   mounted() {
     this.currentWidth = document.documentElement.clientWidth;
 
-    const resizeDebounce = debounce(e => this.onResize(e), 200);
+    const resizeDebounce = debounce(() => this.onResize(), 200);
 
     window.addEventListener('resize', resizeDebounce);
 
